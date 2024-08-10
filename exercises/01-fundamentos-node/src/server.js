@@ -1,31 +1,26 @@
 import http from "node:http";
-import { randomUUID } from "node:crypto";
 import { json } from "./middlewares/json.js";
-import { Database } from "./middlewares/database.js";
-
-const database = new Database();
+import { routes } from "./middlewares/routes.js";
+import { extractQueryParams } from "./utils/extract-query-params.js";
 
 const server = http.createServer(async (request, response) => {
   const { method, url } = request;
 
   await json(request, response);
 
-  if (method === "GET" && url === "/users") {
-    const users = database.select("users");
-    return response.end(JSON.stringify(users));
-  }
+  const route = routes.find((route) => {
+    return route.method === method && route.path.test(url);
+  });
 
-  if (method === "POST" && url === "/users") {
-    const { name, email } = request.body;
-    const user = {
-      id: randomUUID(),
-      name,
-      email,
-    };
+  if (route) {
+    const routeParams = request.url.match(route.path);
 
-    database.insert("users", user);
+    const { query, ...params } = routeParams.groups;
 
-    return response.writeHead(201).end();
+    request.params = params;
+    request.query = query ? extractQueryParams(query) : {};
+
+    return route.handler(request, response);
   }
 
   return response.writeHead(404).end();
