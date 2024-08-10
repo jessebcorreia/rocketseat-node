@@ -1,0 +1,14 @@
+{
+  "users": [
+    {
+      "id": "200c3592-d40b-4704-a3f4-c4653048e71d",
+      "name": "Jessé Bruno Correia",
+      "email": "jesse@email.com"
+    },
+    {
+      "id": "68cc7083-ebd5-4cc3-9ff6-553f0a0e8d42",
+      "name": "Monique Hostin",
+      "email": "monique@email.com"
+    }
+  ]
+}
