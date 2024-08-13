@@ -8,9 +8,9 @@ import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 export async function transactionRoutes(app: FastifyInstance) {
   // como o método app.register do fastify no server.js já está definindo o prefix "/transactions", todas as rotas iniciarão assim por padrão
 
-  app.addHook('preHandler', async (request) => {
+  app.addHook('preHandler', async (/* request */) => {
     // exemplo de middleware global aplicável apenas às rotas em /transactions
-    console.log(`[${request.method}] ${request.url}`)
+    // console.log(`[${request.method}] ${request.url}`)
   })
 
   app.get(
