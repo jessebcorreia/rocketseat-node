@@ -115,7 +115,7 @@ describe('transactions routes', () => {
 
     const cookies = createCreditTransactionResponse.get('Set-Cookie') ?? []
 
-    const createDebitTransactionResponse = await requestSupertest(app.server)
+    await requestSupertest(app.server)
       .post('/transactions')
       .set('Cookie', cookies) // define os cookies no cabeçalho da requisição (se houver sessionId no cabeçalho, a requisição irá vincular o lançamento ao usuário)
       .send({
