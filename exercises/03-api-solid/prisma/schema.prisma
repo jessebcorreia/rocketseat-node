@@ -8,9 +8,38 @@ datasource db {
 }
 
 model Users {
-  id String @id @default(uuid())
-  name String
-  email String @unique
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password_hash String
+  created_at    DateTime  @default(now())
+  checkIns      CheckIn[] //prisma cria a referência inversa (nestes casos usa-se camelCase)
 
   @@map("users") // troca o nome da tabela definida pelo model
+}
+
+model CheckIn {
+  id           String    @id @default(uuid())
+  created_at   DateTime  @default(now())
+  validated_at DateTime?
+
+  //relacionamentos
+  user    Users  @relation(fields: [user_id], references: [id]) //cria a relação
+  user_id String
+  gym     Gym    @relation(fields: [gym_id], references: [id]) //cria a relação
+  gym_id  String
+
+  @@map("check_ins")
+}
+
+model Gym {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  phone       String?
+  latitude    Decimal
+  longitude   Decimal
+  checkIns    CheckIn[] //prisma cria a referência inversa
+
+  @@map("gyms")
 }
