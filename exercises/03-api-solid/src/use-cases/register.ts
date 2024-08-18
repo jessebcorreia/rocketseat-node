@@ -1,5 +1,6 @@
-import { prisma } from '@/lib/prisma'
+import { UsersRepository } from '@/repositories/users-repository'
 import { hash } from 'bcryptjs'
+import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface RegisterUseCaseRequest {
   name: string
@@ -7,29 +8,15 @@ interface RegisterUseCaseRequest {
   password: string
 }
 
-export async function registerUseCase({
-  name,
-  email,
-  password,
-}: RegisterUseCaseRequest) {
-  const passwordHash = await hash(password, 6)
+export class RegisterUseCase {
+  // ao utilizar alguma keyword de visibilidade (private, public, etc), o parâmetro vira automaticamente uma propriedade da classe
+  constructor(private usersRepository: UsersRepository) {} // usersRepository é o nome do parâmetro que recebe a dependência externa
 
-  // o método findUnique() só busca chaves primárias ou registros únicos @unique
-  const userWithSameEmail = await prisma.users.findUnique({
-    where: {
-      email,
-    },
-  })
+  async execute({ name, email, password }: RegisterUseCaseRequest) {
+    const userWithSameEmail = await this.usersRepository.findByEmail(email)
+    if (userWithSameEmail) throw new UserAlreadyExistsError()
 
-  if (userWithSameEmail) {
-    throw new Error('Email already exists.')
+    const password_hash = await hash(password, 6)
+    await this.usersRepository.create({ name, email, password_hash }) // assume que a dependência possui um método "create" e o executa, passando as informações do usuário
   }
-
-  await prisma.users.create({
-    data: {
-      name,
-      email,
-      password_hash: passwordHash,
-    },
-  })
 }
