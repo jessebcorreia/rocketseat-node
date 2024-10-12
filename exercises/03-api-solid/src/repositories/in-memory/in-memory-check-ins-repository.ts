@@ -7,7 +7,7 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
   public items: CheckIn[] = []
 
   async findByUserIdOnDate(userId: string, date: Date) {
-    const startOfTheDay = dayjs(date).startOf('date') // date= dia do mês; day= dia da semana
+    const startOfTheDay = dayjs(date).startOf('date') // date= data completa; day= dia da semana
     const endOfTheDay = dayjs(date).endOf('date')
 
     const checkInOnSameDate = this.items.find((checkIn) => {
