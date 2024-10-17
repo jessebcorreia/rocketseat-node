@@ -8,7 +8,7 @@ GymPass style app.
 - [x] se cadastrar;
 - [x] se autenticar;
 - [x] obter o perfil de um usuário logado;
-- [ ] obter o número de check-ins realizados pelo usuário logado;
+- [x] obter o número de check-ins realizados pelo usuário logado;
 - [x] o usuário obter seu histórico de check-ins;
 - [ ] o usuário buscar academias próximas;
 - [ ] o usuário buscar academias pelo nome;
