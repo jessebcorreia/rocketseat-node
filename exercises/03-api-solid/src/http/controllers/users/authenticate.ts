@@ -23,7 +23,9 @@ export async function authenticate(
     })
 
     const token = await reply.jwtSign(
-      {}, // payload vazio (nunca colocar informações sensíveis)
+      {
+        role: user.role,
+      },
       {
         // está sendo utilizado o id do usuário para gerar o token
         sign: {
@@ -34,7 +36,9 @@ export async function authenticate(
 
     const refreshToken = await reply.jwtSign(
       // serve para renovar o token de acesso do usuário, quando expirado
-      {},
+      {
+        role: user.role,
+      },
       {
         sign: {
           sub: user.id,
