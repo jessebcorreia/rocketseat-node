@@ -26,8 +26,6 @@ export default <Environment>{
   transformMode: 'ssr',
   // é a única função que o environment precisa - ela será executada sempre antes de cada arquivo de testes
   async setup() {
-    console.log('Setup')
-
     const schema = randomUUID() // crio um ID único e aleatório que servirá de nome para o schema do banco de dados
     const databaseUrl = generateDatabaseUrl(schema) // executo a função que irá gerar uma nova DATABASE_URL, recebendo o nome acima
 
