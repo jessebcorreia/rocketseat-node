@@ -44,7 +44,6 @@ describe('Check-in History (e2e)', () => {
       .set('Authorization', `Bearer ${token}`) // cria o cabeçalho da requisição
       .send()
 
-    console.log(response.body)
     expect(response.statusCode).toEqual(200)
     expect(response.body.checkIns).toEqual([
       expect.objectContaining({
