@@ -15,6 +15,7 @@ export async function createAndAuthenticateUser(
       role: isAdmin ? 'ADMIN' : 'MEMBER',
     },
   })
+
   await request(app.server).post('/users').send({
     name: 'John Doe',
     email: 'johndoe@example.com',
