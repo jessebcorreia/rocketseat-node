@@ -19,6 +19,7 @@ describe('Delete Question', () => {
       },
       new UniqueEntityID('question-1'),
     )
+
     await inMemoryQuestionsRepository.create(newQuestion)
 
     await sut.execute({
