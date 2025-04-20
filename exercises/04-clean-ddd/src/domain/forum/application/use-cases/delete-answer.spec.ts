@@ -40,7 +40,7 @@ describe('Delete Answer', () => {
 
     await inMemoryAnswersRepository.create(newAnswer)
 
-    expect(() =>
+    await expect(
       sut.execute({
         answerId: 'answer-1',
         authorId: 'author-2',
