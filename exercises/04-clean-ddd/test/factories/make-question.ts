@@ -2,11 +2,11 @@ import { faker } from '@faker-js/faker'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import {
   Question,
-  QuestionsProps,
+  QuestionProps,
 } from '@/domain/forum/enterprise/entities/question'
 
 export function makeQuestion(
-  override: Partial<QuestionsProps> = {},
+  override: Partial<QuestionProps> = {},
   id?: UniqueEntityID,
 ) {
   // Partial transforma cada uma das propriedades de QuestionProps em opcionais
