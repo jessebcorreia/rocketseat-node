@@ -4,7 +4,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { Optional } from '@/core/types/optional'
 import dayjs from 'dayjs'
 
-export interface QuestionsProps {
+export interface QuestionProps {
   authorId: UniqueEntityID
   bestAnswerId?: UniqueEntityID
   title: string
@@ -14,7 +14,7 @@ export interface QuestionsProps {
   updatedAt?: Date
 }
 
-export class Question extends Entity<QuestionsProps> {
+export class Question extends Entity<QuestionProps> {
   get isNew(): boolean {
     const daysBetweenTodayAndCratedAt = dayjs().diff(this.createdAt, 'days')
     return daysBetweenTodayAndCratedAt < 3
@@ -73,7 +73,7 @@ export class Question extends Entity<QuestionsProps> {
   }
 
   static create(
-    props: Optional<QuestionsProps, 'createdAt' | 'slug'>,
+    props: Optional<QuestionProps, 'createdAt' | 'slug'>,
     id?: UniqueEntityID,
   ) {
     const question = new Question(
