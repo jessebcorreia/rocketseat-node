@@ -4,6 +4,7 @@ import { QuestionsRepository } from '../repositories/questions-repository'
 import { Either, right } from '@/core/either'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
+import { Injectable } from '@nestjs/common'
 
 interface CreateQuestionUseCaseRequest {
   authorId: string
@@ -19,6 +20,7 @@ type CreateQuestionUseCaseResponse = Either<
   }
 >
 
+@Injectable() // Trade Off (Injectable() pertence ao framework NestJS, porém ao invés de criar uma representação do useCase dentro da camada de infra, como esse Decorator não é tão invasivo, optei por manter, mas estando ciente de que isso fere a Clean Architecture)
 export class CreateQuestionUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
 
