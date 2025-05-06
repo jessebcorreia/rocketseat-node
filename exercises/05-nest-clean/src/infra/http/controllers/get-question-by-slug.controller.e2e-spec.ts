@@ -1,6 +1,6 @@
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { NestApplication } from '@nestjs/core'
+import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import { StudentFactory } from 'test/factories/make-student'
@@ -9,7 +9,7 @@ import { QuestionFactory } from 'test/factories/make-question'
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 
 describe('Get question by slug (E2E)', () => {
-  let app: NestApplication
+  let app: INestApplication
   let jwt: JwtService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
