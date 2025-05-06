@@ -29,9 +29,9 @@ export class PrismaQuestionCommentsRepository
     questionId: string,
     { page }: PaginationParams,
   ): Promise<QuestionComment[]> {
-    const questionComment = await this.prisma.comment.findMany({
+    const questionComments = await this.prisma.comment.findMany({
       where: {
-        id: questionId,
+        questionId,
       },
       orderBy: {
         createdAt: 'desc',
@@ -40,7 +40,7 @@ export class PrismaQuestionCommentsRepository
       skip: (page - 1) * 20,
     })
 
-    return questionComment.map(PrismaQuestionCommentMapper.toDomain)
+    return questionComments.map(PrismaQuestionCommentMapper.toDomain)
   }
 
   async create(questionComment: QuestionComment): Promise<void> {
