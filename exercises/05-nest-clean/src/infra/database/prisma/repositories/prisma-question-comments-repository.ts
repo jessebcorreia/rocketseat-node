@@ -1,14 +1,12 @@
-import { PaginationParams } from '@/core/repositories/pagination-params'
-import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository'
-import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment'
-import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import { PrismaQuestionCommentMapper } from '../mappers/prisma-question-comment-mapper'
+import { PaginationParams } from '@/core/repositories/pagination-params';
+import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments-repository';
+import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { PrismaQuestionCommentMapper } from '../mappers/prisma-question-comment-mapper';
 
 @Injectable()
-export class PrismaQuestionCommentsRepository
-  implements QuestionCommentsRepository
-{
+export class PrismaQuestionCommentsRepository implements QuestionCommentsRepository {
   constructor(private prisma: PrismaService) {}
 
   async findById(id: string): Promise<QuestionComment | null> {
@@ -16,13 +14,13 @@ export class PrismaQuestionCommentsRepository
       where: {
         id,
       },
-    })
+    });
 
     if (!questionComment) {
-      return null
+      return null;
     }
 
-    return PrismaQuestionCommentMapper.toDomain(questionComment)
+    return PrismaQuestionCommentMapper.toDomain(questionComment);
   }
 
   async findManyByQuestionId(
@@ -38,17 +36,17 @@ export class PrismaQuestionCommentsRepository
       },
       take: 20,
       skip: (page - 1) * 20,
-    })
+    });
 
-    return questionComments.map(PrismaQuestionCommentMapper.toDomain)
+    return questionComments.map(PrismaQuestionCommentMapper.toDomain);
   }
 
   async create(questionComment: QuestionComment): Promise<void> {
-    const data = PrismaQuestionCommentMapper.toPrisma(questionComment)
+    const data = PrismaQuestionCommentMapper.toPrisma(questionComment);
 
     await this.prisma.comment.create({
       data,
-    })
+    });
   }
 
   async delete(questionComment: QuestionComment): Promise<void> {
@@ -56,6 +54,6 @@ export class PrismaQuestionCommentsRepository
       where: {
         id: questionComment.id.toString(),
       },
-    })
+    });
   }
 }

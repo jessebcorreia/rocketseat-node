@@ -1,14 +1,11 @@
-import { faker } from '@faker-js/faker'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { faker } from '@faker-js/faker';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import {
   Notification,
   NotificationProps,
-} from '@/domain/notification/enterprise/entities/notification'
+} from '@/domain/notification/enterprise/entities/notification';
 
-export function makeNotification(
-  override: Partial<NotificationProps> = {},
-  id?: UniqueEntityID,
-) {
+export function makeNotification(override: Partial<NotificationProps> = {}, id?: UniqueEntityID) {
   // Partial transforma cada uma das propriedades de NotificationProps em opcionais
   const notification = Notification.create(
     {
@@ -18,7 +15,7 @@ export function makeNotification(
       ...override,
     },
     id,
-  )
+  );
 
-  return notification
+  return notification;
 }

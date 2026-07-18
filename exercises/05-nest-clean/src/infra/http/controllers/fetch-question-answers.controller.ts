@@ -1,25 +1,19 @@
-import { z } from 'zod'
-import {
-  BadRequestException,
-  Controller,
-  Get,
-  Param,
-  Query,
-} from '@nestjs/common'
-import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe'
-import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
-import { AnswerPresenter } from '../presenters/answer-presenter'
+import { z } from 'zod';
+import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common';
+import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation-pipe';
+import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers';
+import { AnswerPresenter } from '../presenters/answer-presenter';
 
 const pageQueryParamSchema = z
   .string()
   .optional()
   .default('1')
   .transform(Number)
-  .pipe(z.number().min(1))
+  .pipe(z.number().min(1));
 
-const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
+const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema);
 
-type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>
+type PageQueryParamSchema = z.infer<typeof pageQueryParamSchema>;
 
 @Controller('/questions/:questionId/answers')
 export class FetchQuestionAnswersController {
@@ -33,14 +27,14 @@ export class FetchQuestionAnswersController {
     const result = await this.fetchQuestionAnswers.execute({
       page,
       questionId,
-    })
+    });
 
     if (result.isLeft()) {
-      throw new BadRequestException()
+      throw new BadRequestException();
     }
 
-    const { answers } = result.value
+    const { answers } = result.value;
 
-    return { answers: answers.map(AnswerPresenter.toHTTP) }
+    return { answers: answers.map(AnswerPresenter.toHTTP) };
   }
 }

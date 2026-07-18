@@ -1,24 +1,24 @@
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { Question } from '../../enterprise/entities/question'
-import { QuestionsRepository } from '../repositories/questions-repository'
-import { Either, right } from '@/core/either'
-import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
-import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
-import { Injectable } from '@nestjs/common'
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { Question } from '../../enterprise/entities/question';
+import { QuestionsRepository } from '../repositories/questions-repository';
+import { Either, right } from '@/core/either';
+import { QuestionAttachment } from '../../enterprise/entities/question-attachment';
+import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list';
+import { Injectable } from '@nestjs/common';
 
 interface CreateQuestionUseCaseRequest {
-  authorId: string
-  title: string
-  content: string
-  attachmentsIds: string[]
+  authorId: string;
+  title: string;
+  content: string;
+  attachmentsIds: string[];
 }
 
 type CreateQuestionUseCaseResponse = Either<
   null,
   {
-    question: Question
+    question: Question;
   }
->
+>;
 
 @Injectable() // Trade Off (Injectable() pertence ao framework NestJS, porém ao invés de criar uma representação do useCase dentro da camada de infra, como esse Decorator não é tão invasivo, optei por manter, mas estando ciente de que isso fere a Clean Architecture)
 export class CreateQuestionUseCase {
@@ -34,21 +34,21 @@ export class CreateQuestionUseCase {
       authorId: new UniqueEntityID(authorId),
       title,
       content,
-    })
+    });
 
     const questionAttachments = attachmentsIds.map((attachmentId) => {
       return QuestionAttachment.create({
         attachmentId: new UniqueEntityID(attachmentId),
         questionId: question.id,
-      })
-    })
+      });
+    });
 
-    question.attachments = new QuestionAttachmentList(questionAttachments)
+    question.attachments = new QuestionAttachmentList(questionAttachments);
 
-    await this.questionsRepository.create(question)
+    await this.questionsRepository.create(question);
 
     return right({
       question,
-    })
+    });
   }
 }

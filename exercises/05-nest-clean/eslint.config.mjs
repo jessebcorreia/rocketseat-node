@@ -20,6 +20,7 @@ export default tseslint.config(
     },
     rules: {
       'prettier/prettier': 'error',
+      'no-useless-assignment': 'off',
     },
   },
   prettierConfig,

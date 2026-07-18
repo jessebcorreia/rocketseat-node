@@ -1,23 +1,23 @@
-import { AnswerComment } from '../../enterprise/entities/answer-comment'
-import { UniqueEntityID } from '@/core/entities/unique-entity-id'
-import { AnswersRepository } from '../repositories/answers-repository'
-import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
-import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
-import { Either, left, right } from '@/core/either'
-import { Injectable } from '@nestjs/common'
+import { AnswerComment } from '../../enterprise/entities/answer-comment';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { AnswersRepository } from '../repositories/answers-repository';
+import { AnswerCommentsRepository } from '../repositories/answer-comments-repository';
+import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error';
+import { Either, left, right } from '@/core/either';
+import { Injectable } from '@nestjs/common';
 
 interface CommentOnAnswerUseCaseRequest {
-  authorId: string
-  answerId: string
-  content: string
+  authorId: string;
+  answerId: string;
+  content: string;
 }
 
 type CommentOnAnswerUseCaseResponse = Either<
   ResourceNotFoundError,
   {
-    answerComment: AnswerComment
+    answerComment: AnswerComment;
   }
->
+>;
 
 @Injectable()
 export class CommentOnAnswerUseCase {
@@ -31,22 +31,22 @@ export class CommentOnAnswerUseCase {
     answerId,
     content,
   }: CommentOnAnswerUseCaseRequest): Promise<CommentOnAnswerUseCaseResponse> {
-    const answer = this.answersRepository.findById(answerId)
+    const answer = this.answersRepository.findById(answerId);
 
     if (!answer) {
-      return left(new ResourceNotFoundError())
+      return left(new ResourceNotFoundError());
     }
 
     const answerComment = AnswerComment.create({
       authorId: new UniqueEntityID(authorId),
       answerId: new UniqueEntityID(answerId),
       content,
-    })
+    });
 
-    await this.answerCommentRepository.create(answerComment)
+    await this.answerCommentRepository.create(answerComment);
 
     return right({
       answerComment,
-    })
+    });
   }
 }
