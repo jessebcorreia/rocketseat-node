@@ -5,10 +5,12 @@ import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
+  {
+    ignores: ['data/**', 'dist/**', 'node_modules/**'],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist/**', 'node_modules/**'],
     languageOptions: {
       globals: {
         ...globals.node,
