@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events';
 import { AppModule } from '@/infra/app.module';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
@@ -30,6 +31,8 @@ describe('On question best answer chosen (E2E)', () => {
     studentFactory = moduleRef.get(StudentFactory);
     questionFactory = moduleRef.get(QuestionFactory);
     answerFactory = moduleRef.get(AnswerFactory);
+
+    DomainEvents.shouldRun = true;
 
     await app.init();
   });
